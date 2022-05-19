@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import theme from '../core/theme';
 
 export default function Register(){
