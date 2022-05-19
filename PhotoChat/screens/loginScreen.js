@@ -13,6 +13,7 @@ export default function Login(){
                 <Text style={styles.text}>Sign in</Text>
             </Pressable>
             <Text style={styles.description}>Don't have an accout? sign up.</Text>
+            <Text style={styles.description}>forgot password? restore password.</Text>
           </View>
       </View>
     );

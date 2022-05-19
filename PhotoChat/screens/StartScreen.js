@@ -11,7 +11,7 @@ export default function StartScreen({ navigation }){
             <Pressable style={styles.button} onPress={()=> navigation.navigate('LoginScreen')}>
                 <Text style={styles.text}>Sign in</Text>
             </Pressable>
-            <Pressable style={styles.button} onPress={()=> navigation.navigate('RegisterScreen')}>
+            <Pressable style={styles.button} onPress={()=> navigation.navigate('RegisterWithScreen')}>
                 <Text style={styles.text}>Sign up</Text>
             </Pressable>
         </Background>
