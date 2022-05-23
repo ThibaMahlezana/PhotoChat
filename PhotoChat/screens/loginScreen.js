@@ -2,14 +2,14 @@ import React from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import theme from '../core/theme';
 
-export default function Login(){
+export default function Login({ navigation }){
     return(
       <View style={styles.container}>
           <Text style={styles.header}>sign in</Text>
           <View style={styles.input_area}>
             <TextInput style={styles.input} placeholder="Email"/>
             <TextInput style={styles.input} placeholder="Password"/>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} onPress={()=> navigation.navigate('Home')}>
                 <Text style={styles.text}>Sign in</Text>
             </Pressable>
             <Text style={styles.description}>Don't have an accout? sign up.</Text>

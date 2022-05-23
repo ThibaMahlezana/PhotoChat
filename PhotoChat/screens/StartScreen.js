@@ -20,7 +20,7 @@ export default function StartScreen({ navigation }){
 
 const styles = StyleSheet.create({
     header : {
-        fontSize: 45,
+        fontSize: 30,
         fontWeight: '600',
         color: '#FFF',
         textTransform: 'uppercase',
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     subheader: {
         margin: 10,
         color: '#FFF',
-        fontSize: 30,
+        fontSize: 40,
         fontFamily: 'Nunito'
     },
     text : {

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
 import theme from '../core/theme';
 
-export default function Register(){
+export default function Register({ navigation }){
     return(
       <View style={styles.container}>
           <Text style={styles.header}>Register</Text>
@@ -11,7 +11,7 @@ export default function Register(){
             <TextInput style={styles.input} placeholder="Email"/>
             <TextInput style={styles.input} placeholder="Password"/>
             <TextInput style={styles.input} placeholder="Confirm Password"/>
-            <Pressable style={styles.button}>
+            <Pressable style={styles.button} onPress={()=> navigation.navigate('Feeds')}>
                 <Text style={styles.text}>Sign up</Text>
             </Pressable>
             <Text style={styles.description}>Already have an accout? sign in.</Text>
