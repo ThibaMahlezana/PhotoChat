@@ -1,10 +1,17 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import TopBar from '../components/TopBar';
+import BottomTab from '../components/BottomTab';
+
+const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />;
 
 export default function Profile(){
     return(
         <View style={styles.container}>
-            <Text>Profile Screen</Text>
+            <TopBar backIcon={backIcon}/>
+            <Text>Profile Content</Text>
+            <BottomTab/>
         </View>
     );
 }
@@ -12,7 +19,5 @@ export default function Profile(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
 });

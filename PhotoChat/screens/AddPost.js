@@ -1,20 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
-import TopBar from '../components/TopBar';
-import Posts from '../components/Posts';
-import BottomTab from '../components/BottomTab';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import TopBar from '../components/TopBar';
+import BottomTab from '../components/BottomTab';
 
 const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />;
 
-export default function Feeds(){
+export default function AddPost(){
     return(
         <View style={styles.container}>
-            <SafeAreaView>
-                <TopBar backIcon={''}/>
-                <Posts/>
-                <BottomTab/>
-            </SafeAreaView>
+            <TopBar backIcon={backIcon}/>
+            <Text>AddPost Content</Text>
+            <BottomTab/>
         </View>
     );
 }
