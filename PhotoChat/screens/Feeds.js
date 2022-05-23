@@ -5,15 +5,15 @@ import Posts from '../components/Posts';
 import BottomTab from '../components/BottomTab';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />;
+//const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />;
 
 export default function Feeds(){
     return(
         <View style={styles.container}>
             <SafeAreaView>
-                <TopBar backIcon={''}/>
+                <TopBar/>
                 <Posts/>
-                <BottomTab/>
+                <BottomTab />
             </SafeAreaView>
         </View>
     );

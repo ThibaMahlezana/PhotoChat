@@ -4,7 +4,9 @@ import {View, Text, StyleSheet} from 'react-native';
 export default function Posts(){
     return(
         <View style={styles.container}>
-            <Text>Posts</Text>
+            <View style={styles.post}>
+                <Text>Post</Text>
+            </View>
         </View>
     );
 }
@@ -12,5 +14,7 @@ export default function Posts(){
 const styles = StyleSheet.create({
     container: {
         height:'80%',
-    }
+    },
+    post: {},
+    postHeader: {},
 });

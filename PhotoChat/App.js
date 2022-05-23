@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
 import HomeScreen from './screens/HomeScreen';
 import StartScreen from './screens/StartScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -25,7 +24,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Notifications">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown: false}} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}} />
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}} />

@@ -2,14 +2,17 @@ import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import theme from '../core/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const camIcon = <Icon name="camera" size={25} color="#FFF" />
+const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />
 
-export default function TopBar(props) {
+export default function TopBar() {
+    const navigation = useNavigation(); 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.icon}>
-                <Text>{props.backIcon}</Text>
+            <TouchableOpacity style={styles.icon} onPress={()=> navigation.goBack()}>
+                <Text>{' '}</Text>
             </TouchableOpacity>
             <View style={styles.title}>
                 {/* <Text style={styles.ownerName}>Moses Reeds</Text> */}
