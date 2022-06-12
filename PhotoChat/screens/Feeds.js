@@ -1,26 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
-import TopBar from '../components/TopBar';
+import {View, ScrollView, StyleSheet, Text} from 'react-native';
+import Stories from './Stories';
 import Posts from '../components/Posts';
-import BottomTab from '../components/BottomTab';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
-//const backIcon = <Icon name="chevron-left" size={25} color="#FFF" />;
-
-export default function Feeds(){
+export default function Feeds({ navigation }){
     return(
         <View style={styles.container}>
-            <SafeAreaView>
-                <TopBar/>
-                <Posts/>
-                <BottomTab />
-            </SafeAreaView>
+            <Stories/>
+            <Posts navigation={navigation}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
     },
 });

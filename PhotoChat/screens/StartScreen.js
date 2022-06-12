@@ -1,55 +1,76 @@
 import React from "react";
-import { StyleSheet, Text, Button, Pressable } from "react-native";
-import Background from "../components/Background";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import theme from '../core/theme';
+import { AppLoading } from 'expo';
+import { useFonts } from 'expo-font';
+
+import { 
+    Nunito_400Regular,
+    Nunito_700Bold
+} from '@expo-google-fonts/nunito';
 
 export default function StartScreen({ navigation }){
+    const [loaded] = useFonts({
+        Nunito_400Regular,
+        Nunito_700Bold,
+    });
+      
+    if (!loaded) {
+        return null;
+    }
     return(
-        <Background>
+        <View style={styles.background}>
             <Text style={styles.header}>Moses Reeds</Text>
             <Text style={styles.subheader}>PhotoChat</Text>
-            <Pressable style={styles.button} onPress={()=> navigation.navigate('LoginScreen')}>
+            <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Login')}>
                 <Text style={styles.text}>Sign in</Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={()=> navigation.navigate('RegisterWithScreen')}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('RegisterWith')}>
                 <Text style={styles.text}>Sign up</Text>
-            </Pressable>
-        </Background>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    background: {
+        backgroundColor: theme.PRIMARY_COLOR,
+        flex: 1,
+        padding: 10,
+        width: '100%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     header : {
         fontSize: 30,
         fontWeight: '600',
         color: '#FFF',
         textTransform: 'uppercase',
-        fontFamily: 'Nunito',
-        margin: 10
+        fontFamily: 'Nunito_400Regular',
+        marginBottom: 10
     },
     subheader: {
-        margin: 10,
+        marginBottom: 10,
         color: '#FFF',
-        fontSize: 40,
-        fontFamily: 'Nunito'
+        fontSize: 45,
+        fontFamily: 'Nunito_700Bold',
     },
     text : {
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-        textTransform: 'uppercase'
+        fontFamily: 'Nunito_700Bold',
+        color: '#FFF',
+        textTransform: 'uppercase',
     },
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 32,
-        borderRadius: 4,
+        borderRadius: 10,
         elevation: 3,
-        backgroundColor: '#841584',
-        width: '80%',
+        backgroundColor: theme.SECONDARY_COLOR,
+        width: '90%',
+        height: 50,
         marginBottom: 10
     }
 });
