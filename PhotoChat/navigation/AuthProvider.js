@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
                       console.log(error);
                     }
                 },
-                register: async (username, email, password) => {
+                register: async (avatar, username, email, password) => {
                     try {
                       await auth.createUserWithEmailAndPassword(email, password)
                       .then(() => {
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
                             bio: '',
                             location: '',
                             phone: '',
-                            userImg: null,
+                            userImg: avatar,
                         })
                         .catch(error => {
                             if(error.code == 'auth/email-already-exists'){

@@ -46,7 +46,7 @@ const CustomDrawer = props => {
                 style={styles.image} 
                 source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
             />
-            <Text style={styles.username}>username</Text>
+            <Text style={styles.username}>{userData.username}</Text>
         </View>
         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
             <DrawerItemList {...props} />
