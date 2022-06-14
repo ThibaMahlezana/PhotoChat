@@ -8,6 +8,7 @@ import {
   Platform, 
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
   ScrollView,
   Image } 
 from 'react-native'
@@ -24,7 +25,6 @@ import { db } from '../core/firebase';
 const EditProfile = () => {
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
-  const scrollComponent = useRef(null);
 
   const getUser = async() => {
     const currentUser = await db
@@ -39,25 +39,37 @@ const EditProfile = () => {
     })
   }
 
-  useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", () => {
-      scrollComponent.current.scrollToEnd();
+  const handleUpdate = async() => {
+    db.collection('users')
+    .doc(user.uid)
+    .update({
+      username: userData.username,
+      bio: userData.bio,
+      phone: userData.phone,
+      location: userData.location,
+      userImg: userData.userImg,
     })
-  })
-
+    .then(() => {
+      console.log('User Updated!');
+      Alert.alert(
+        'Profile Updated!',
+        'Your profile has been updated successfully.'
+      );
+    })
+  }
   useEffect(() => {
     getUser();
   }, []);
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      //behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
-        <ScrollView ref={scrollComponent} showsVerticalScrollIndicator={false}>
+        <ScrollView>
           <TouchableOpacity style={styles.header}>
             <Image 
               style={styles.image} 
-              source={require('../assets/images/500.jpg')} 
+              source={{uri: userData && userData.userImg}} 
             />
           </TouchableOpacity>
           <View style={styles.action}>
@@ -67,8 +79,8 @@ const EditProfile = () => {
                 placeholderTextColor="#666666"
                 style={[GlobalStyles.input, {width: '90%', marginLeft: 12}]}
                 autoCorrect={false}
-                value={userData ? userData.username : ''}
-                onChangeText={(txt) => setUserData({...userData, fname: txt})}
+                value={userData && userData.username}
+                onChangeText={(txt) => setUserData({...userData, username: txt})}
             />
           </View>
           <View style={styles.action}>
@@ -80,8 +92,8 @@ const EditProfile = () => {
                 placeholderTextColor="#666666"
                 style={[GlobalStyles.input, {width: '90%', marginLeft: 12}]}
                 autoCorrect={false}
-                value={userData ? userData.bio: ''}
-                onChangeText={(txt) => setUserData({...userData, fname: txt})}
+                value={userData && userData.bio}
+                onChangeText={(txt) => setUserData({...userData, bio: txt})}
             />
           </View>
           <View style={styles.action}>
@@ -91,8 +103,8 @@ const EditProfile = () => {
                 placeholderTextColor="#666666"
                 style={[GlobalStyles.input, {width: '90%', marginLeft: 12}]}
                 autoCorrect={false}
-                value={userData ? userData.phone : ''}
-                onChangeText={(txt) => setUserData({...userData, fname: txt})}
+                value={userData && userData.phone}
+                onChangeText={(txt) => setUserData({...userData, phone: txt})}
             />
           </View>
           <View style={styles.action}>
@@ -106,11 +118,11 @@ const EditProfile = () => {
                 placeholderTextColor="#666666"
                 style={[GlobalStyles.input, {width: '90%', marginLeft: 12}]}
                 autoCorrect={false}
-                value={userData ? userData.location : ''}
-                onChangeText={(txt) => setUserData({...userData, fname: txt})}
+                value={userData && userData.location}
+                onChangeText={(txt) => setUserData({...userData, location: txt})}
             />
           </View>
-          <TouchableOpacity style={GlobalStyles.button}>
+          <TouchableOpacity style={GlobalStyles.button} onPress={handleUpdate}>
             <Text style={GlobalStyles.text}>Update</Text>
           </TouchableOpacity>
       </ScrollView>

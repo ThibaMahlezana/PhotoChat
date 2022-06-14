@@ -73,8 +73,11 @@ export default function Profile({ navigation, route }){
     }
 
     useEffect(() => {
+        console.log(userData);
         getUser();
-        navigation.addListener("focus", () => setLoading(!loading));
+        navigation.addListener("focus", () => {
+            setLoading(!loading)
+        });
     }, [navigation, loading]);
 
     return(
@@ -85,9 +88,9 @@ export default function Profile({ navigation, route }){
                     source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
                 />
                 <Text style={styles.name}>
-                    {userData ? userData.username : ' '}
+                    {userData && userData.username}
                 </Text>
-                <Text style={styles.bio}>{userData ? userData.bio : ' '}</Text>
+                <Text style={styles.bio}>{userData && userData.bio}</Text>
                 <View style={styles.buttons}>
                     {route.params ? (
                         <>
