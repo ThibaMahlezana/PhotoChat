@@ -90,7 +90,14 @@ const PostCard = ({ item, navigation }) => {
                     <Text style={styles.likesText}>20</Text>
                 </View>
                 <View style={styles.comments}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Comments')}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            console.log(item.id);
+                            navigation.navigate('Comments',
+                            {   screen: 'Comments',
+                                params: { postId: item.id },}
+                            );
+                        }}>
                         <Text style={styles.likesText}>{CommentIcon}</Text> 
                     </TouchableOpacity>
                     <Text style={styles.likesText}>50</Text>

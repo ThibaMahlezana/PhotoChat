@@ -63,7 +63,7 @@ const ChatsList = ({ navigation }) => {
       .where('clientId', '==', user.uid)
       .get()
       .then((querySnapshot) => {
-        //console.log('num messages ',querySnapshot.size);
+        console.log('num messages ',querySnapshot.size);
         querySnapshot.forEach((doc) => {
           const { text, time, userId } = doc.data();
           list.push({
@@ -71,8 +71,6 @@ const ChatsList = ({ navigation }) => {
             text: text,
             time: time,
             userId: userId,
-            username: 'username',
-            avatar,
           });
           setMessages(list);
         })
@@ -103,11 +101,11 @@ const ChatsList = ({ navigation }) => {
               <View style={styles.textSection}>
                 <View style={styles.userInfoText}>
                   <Text style={styles.userName}>
-                    {item.username}
+                    username
                   </Text>
                   <Text style={styles.postTime}>Time</Text>
                 </View>
-                <Text style={styles.messageText}>{item.text}</Text>
+                <Text style={styles.messageText}>Text</Text>
               </View>
             </View>
           </TouchableOpacity>
