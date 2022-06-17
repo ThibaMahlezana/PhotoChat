@@ -44,7 +44,7 @@ const ChatsStack = ({navigation}) => {
                 name="ChatsDetails"
                 component={Chats}
                 options={({route}) => ({
-                    title: route.params.userName,
+                    title: route.params.username,
                     headerBackTitleVisible: false,
                   })}
                 />

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import {View, 
+import {
+    View, 
     Text, 
     StyleSheet, 
     Image, 
     TouchableOpacity, 
-    useWindowDimensions } from 'react-native';
+    useWindowDimensions 
+} from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { TabBar } from 'react-native-tab-view';
 import theme from '../core/theme';
@@ -18,37 +20,8 @@ import { useFonts } from 'expo-font';
 import ImagesList from '../components/ImagesList';
 import VideosList from '../components/VideosList';
 import PostsList from '../components/PostsList';
- 
-const renderScene = SceneMap({
-    first: ImagesList,
-    second: VideosList,
-    third: PostsList,
-});
 
-
-const renderTabBar = props => (
-    <TabBar
-      {...props}
-      indicatorStyle={{ backgroundColor: 'white' }}
-      style={{ backgroundColor: theme.SECONDARY_COLOR }}
-      renderIcon={props => getTabBarIcon(props)}
-    />
-);
-
-const getTabBarIcon = (props) => {
-    const {route} = props;
-    if(route.key == 'first'){
-        return <Icon name='md-images' size={20} color={'white'}/>
-    }
-    else if(route.key == 'second'){
-        return <MaIcon name='video-collection' size={20} color={'white'}/>
-    }
-    else{
-        return <Icon name='md-newspaper' size={20} color={'white'}/>
-    }
-}
-
-export default function Profile({ navigation, route }){
+export default function Profile({ route, navigation }){
     const {user, logout} = useContext(AuthContext);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -72,8 +45,43 @@ export default function Profile({ navigation, route }){
         });
     }
 
+    const userProfileId =  route.params ? route.params.userId : user.uid;
+    const renderScene = ({ route }) => {
+        switch (route.key) {
+          case 'first':
+            return <ImagesList userId={userProfileId} />;
+          case 'second':
+            return <VideosList />;
+        case 'third':
+            return <PostsList />;
+          default:
+            return null;
+        }
+    };
+    
+    const renderTabBar = props => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: 'white' }}
+          style={{ backgroundColor: theme.SECONDARY_COLOR }}
+          renderIcon={props => getTabBarIcon(props)}
+        />
+    );
+    
+    const getTabBarIcon = (props) => {
+        const {route} = props;
+        if(route.key == 'first'){
+            return <Icon name='md-images' size={20} color={'white'}/>
+        }
+        else if(route.key == 'second'){
+            return <MaIcon name='video-collection' size={20} color={'white'}/>
+        }
+        else{
+            return <Icon name='md-newspaper' size={20} color={'white'}/>
+        }
+    }
+    
     useEffect(() => {
-        console.log(userData);
         getUser();
         navigation.addListener("focus", () => {
             setLoading(!loading)

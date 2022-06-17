@@ -1,8 +1,12 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import theme from '../core/theme'
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { useFonts } from 'expo-font';
+import { db } from '../core/firebase';
+import { AuthContext } from '../navigation/AuthProvider';
+import moment from "moment";
+
 
 const Messages = [
   {
@@ -47,27 +51,63 @@ const Messages = [
   },
 ];
 
+const ChatsList = ({ navigation }) => {
+  const {user, logout} = useContext(AuthContext);
+  const [messages, setMessages] = useState([]);
+  const [userData, setUserData] = useState([]);
 
-const ChatsList = ({navigation}) => {
+  const fetchChatList = async () => {
+    const list = [];
+    try{
+      await db.collection('chats')
+      .where('clientId', '==', user.uid)
+      .get()
+      .then((querySnapshot) => {
+        //console.log('num messages ',querySnapshot.size);
+        querySnapshot.forEach((doc) => {
+          const { text, time, userId } = doc.data();
+          list.push({
+            id: doc.data.id,
+            text: text,
+            time: time,
+            userId: userId,
+            username: 'username',
+            avatar,
+          });
+          setMessages(list);
+        })
+      })
+    } catch(e){
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchChatList();
+  }, [])
+
   return (
     <View style={styles.container}>
       <FlatList 
-        data={Messages}
+        data={messages}
         keyExtractor={item=>item.id}
         renderItem={({item}) => (
           <TouchableOpacity 
               style={styles.card}
-              onPress={() => navigation.navigate('ChatsDetails', {userName: item.userName})}>
+              onPress={() => navigation.navigate('ChatsDetails', 
+                        { username: userData.username })}>
             <View style={styles.userInfo}>
               <View style={styles.userImgWrapper}>
-                <Image style={styles.userImg} source={item.userImg}/>
+                <Image style={styles.userImg} source={require('../assets/images/500.jpg')}/>
               </View>
               <View style={styles.textSection}>
                 <View style={styles.userInfoText}>
-                  <Text style={styles.userName}>{item.userName}</Text>
-                  <Text style={styles.postTime}>{item.messageTime}</Text>
+                  <Text style={styles.userName}>
+                    {item.username}
+                  </Text>
+                  <Text style={styles.postTime}>Time</Text>
                 </View>
-                <Text style={styles.messageText}>{item.messageText}</Text>
+                <Text style={styles.messageText}>{item.text}</Text>
               </View>
             </View>
           </TouchableOpacity>

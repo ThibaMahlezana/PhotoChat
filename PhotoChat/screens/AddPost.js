@@ -5,7 +5,8 @@ import {View,
     Image, 
     TextInput,
     TouchableOpacity,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import * as ImagePicker from 'expo-image-picker';

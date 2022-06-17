@@ -66,7 +66,15 @@ export default function Search({navigation}){
                 style={styles.image} 
                 source={{uri: item.userImg}} />
             <View style={{marginHorizontal: 10, width: '35%'}}>
-                <TouchableOpacity onPress={()=> navigation.navigate('Profile')}>
+                <TouchableOpacity 
+                    onPress={() => {
+                        console.log(item.id);
+                        navigation.navigate('Profile',
+                        {   screen: 'Profile',
+                            params: { userId: item.id },}
+                        );
+                    }}
+                    >
                     <Text style={styles.username}>{item.username}</Text>
                 </TouchableOpacity>
                 <Text style={styles.location}>{item.location}</Text>
