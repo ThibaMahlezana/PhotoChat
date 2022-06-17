@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../core/theme';
 import { AuthContext } from '../navigation/AuthProvider';
 import { store, db } from '../core/firebase';
+import firebase from 'firebase/compat';
 
 export default function AddPost(){
     const {user, logout} = useContext(AuthContext);
@@ -21,18 +22,18 @@ export default function AddPost(){
     const [image, setImage] = useState(null);
     const [post, setPost] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const submitPost = async () => {
+        setLoading(true);
         const imageUrl = await uploadImage();
-        console.log('Image Url: ', imageUrl);
-        console.log('Post: ', post);
 
         db.collection('posts')
         .add({
             userId: user.uid,
             post: post,
             postImg: imageUrl,
-            postTime: null,
+            postTime: firebase.firestore.FieldValue.serverTimestamp(),
             likes: null,
             comments: null,
         })
@@ -45,6 +46,7 @@ export default function AddPost(){
         .catch((error) => {
             console.log(error);
         });
+        setLoading(false);
     };
 
     const pickImage = async () => {
@@ -117,7 +119,9 @@ export default function AddPost(){
                 onChangeText={(content) => setPost(content)}
             />
             <TouchableOpacity style={styles.btn} onPress={submitPost}>
-                <Text style={styles.text}>Post</Text>
+                { loading ? <ActivityIndicator size="large" color='#FFF' />: 
+                    <Text style={styles.text}>Post</Text>
+                }
             </TouchableOpacity>
             <ActionButton buttonColor={theme.SECONDARY_COLOR}>
                 <ActionButton.Item

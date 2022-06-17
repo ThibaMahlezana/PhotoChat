@@ -4,6 +4,7 @@ import { View,
     StyleSheet, 
     Image, 
     TouchableOpacity,
+    ActivityIndicator,
     FlatList
 } from 'react-native';
 import theme from "../core/theme";
@@ -12,12 +13,15 @@ import PostCard from "./PostCard";
 
 export default function Posts({ navigation }){
     const [posts, setPosts] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
     
     const fetchPosts = async () => {
+        setLoading(true);
         try{
             const list = [];
             await db.collection('posts')
+            .orderBy('postTime', 'desc')
             .get()
             .then((QuerySnapshot) => {
                 QuerySnapshot.forEach((doc) => {
@@ -53,7 +57,14 @@ export default function Posts({ navigation }){
         catch(e){
             console.log(e);
         }
+        setLoading(false);
     }
+
+    const onRefresh = async () => {
+        setIsFetching(true);
+        fetchPosts();
+        setIsFetching(false);
+    };
 
     useEffect(() => {
         fetchPosts();
@@ -65,8 +76,13 @@ export default function Posts({ navigation }){
 
     return(
         <View style={styles.container}>
+            { loading ?
+            <ActivityIndicator size="large" color={theme.SECONDARY_COLOR} />
+            :
             <FlatList 
-                data={posts} 
+                data={posts}
+                onRefresh={onRefresh}
+                refreshing={isFetching} 
                 renderItem = {({item}) => (
                     <PostCard navigation={navigation} item={item} />
                 )}
@@ -75,6 +91,7 @@ export default function Posts({ navigation }){
                 ListFooterComponent={ListHeader}
                 showsVerticalScrollIndicator={false} 
             />
+            }
         </View>
     );
 }

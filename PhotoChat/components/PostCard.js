@@ -10,12 +10,20 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { db } from '../core/firebase';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { useFonts } from 'expo-font';
+import moment from 'moment';
 
-const likeIcon = <Icon name="heart-o" size={25} color={theme.SECONDARY_COLOR} />
+const likeIcon = <Icon name="heart" size={25} color={theme.SECONDARY_COLOR} />
+const disLikedIcon = <Icon name="heart-o" size={25} color={theme.SECONDARY_COLOR} />
+
 const CommentIcon = <Icon name="comment-o" size={25} color={theme.SECONDARY_COLOR} />
 
 const PostCard = ({ item, navigation }) => {
     const [userData, setUserData] = useState(null);
+    const [like, setLike] = useState(false);
+
+    const handleLike = () => {
+        like ? setLike(false) : setLike(true);
+    }
 
     const getUser = async () => {
         await db.collection('users')
@@ -46,7 +54,9 @@ const PostCard = ({ item, navigation }) => {
                             {userData ? userData.username : ''}
                         </Text>
                     </TouchableOpacity>
-                    <Text style={styles.headerSubTitle}>10 min ago</Text>
+                    <Text style={styles.headerSubTitle}>
+                        { moment(item.postTime.toDate()).fromNow() }
+                    </Text>
                 </View>
             </View>
         );
@@ -72,13 +82,15 @@ const PostCard = ({ item, navigation }) => {
         return(
             <View style={styles.likesArea}>
                 <View style={styles.likes}>
-                    <TouchableOpacity>
-                        <Text style={styles.likesText}>{likeIcon}</Text>
+                    <TouchableOpacity onPress={handleLike}>
+                        <Text style={styles.likesText}>
+                            { like ? likeIcon : disLikedIcon }
+                        </Text>
                     </TouchableOpacity>
                     <Text style={styles.likesText}>20</Text>
                 </View>
                 <View style={styles.comments}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Comments')}>
                         <Text style={styles.likesText}>{CommentIcon}</Text> 
                     </TouchableOpacity>
                     <Text style={styles.likesText}>50</Text>

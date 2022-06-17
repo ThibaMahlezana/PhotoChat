@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, StyleSheet, TextInput, Image, TouchableOpacity, ScrollView, FlatList} from 'react-native';
+import {View, Text, StyleSheet, TextInput, Image, TouchableOpacity, ScrollView, FlatList, ActivityIndicator} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import theme from '../core/theme';
@@ -14,9 +14,10 @@ const UserIcon = <IoniIcon name="user" size={25} color={theme.SECONDARY_COLOR} /
 
 export default function Search({navigation}){
     const [users, setUsers] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const fetchUsers = async () => {
+        setLoading(true);
         try {
             const list = [];
             await db.collection('users')
@@ -44,6 +45,7 @@ export default function Search({navigation}){
         catch(error){
             console.log(error);
         }
+        setLoading(false);
     }
 
     const queryUsersByUsername = (username) => {
@@ -105,7 +107,10 @@ export default function Search({navigation}){
                         //onChangeText={(search) => {queryUsersByUsername(search).then(setUsers)}}
                     />
                 </View>
-                <FlatList 
+                { loading ?
+                    (<ActivityIndicator size="large" color={theme.SECONDARY_COLOR} />)
+                    :
+                (<FlatList 
                     data={users} 
                     renderItem = {({item}) => (
                         <UserCard navigation={navigation} item={item} />
@@ -114,8 +119,8 @@ export default function Search({navigation}){
                     ListHeaderComponent={ListHeader}
                     ListFooterComponent={ListHeader}
                     showsVerticalScrollIndicator={false} 
-                />
-
+                />)
+                }
                 
                 {/* <View style={styles.userContainer}>
                     <Image style={styles.image} source={require('../assets/images/500.jpg')} />

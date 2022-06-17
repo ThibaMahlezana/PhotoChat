@@ -22,7 +22,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../core/theme';
 import { AuthContext } from '../navigation/AuthProvider';
-import { db } from '../core/firebase';
+import { db, store } from '../core/firebase';
 import {defaultProfilePic} from '../core/defaults';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
@@ -53,7 +53,7 @@ const EditProfile = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
@@ -63,6 +63,9 @@ const EditProfile = () => {
   };
 
   const handleUpdate = async() => {
+    setLoading(true);
+    const imageUrl = await uploadImage();
+
     db.collection('users')
     .doc(user.uid)
     .update({
@@ -70,7 +73,7 @@ const EditProfile = () => {
       bio: userData.bio,
       phone: userData.phone,
       location: userData.location,
-      userImg: userData.userImg,
+      userImg: imageUrl,
     })
     .then(() => {
       console.log('User Updated!');
@@ -79,7 +82,48 @@ const EditProfile = () => {
         'Your profile has been updated successfully.'
       );
     })
+    setLoading(false);
   }
+
+  const uploadImage = async () => {
+    if( image == null ) {
+        console.log('no image');
+        return null;
+    }
+    const uploadUri = image;
+    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+
+    // Add timestamp to File Name
+    const extension = filename.split('.').pop(); 
+    const name = filename.split('.').slice(0, -1).join('.');
+    filename = name + Date.now() + '.' + extension;
+
+    // Implement a new Blob promise with XMLHTTPRequest
+    var blob = await new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            resolve(xhr.response);
+        };
+        xhr.onerror = function () {
+            reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uploadUri, true);
+        xhr.send(null);
+    });
+
+    // Create a ref in Firebase
+    const ref = store.ref(`photos/${filename}`);
+
+    // Upload blob to Firebase
+    const snapshot = await ref.put(blob, { contentType: "image/png" });
+
+    // Create a download URL
+    const remoteURL = await snapshot.ref.getDownloadURL();
+
+    // Return the URL
+    return remoteURL;
+};
 
   useEffect(() => {
     getUser();
@@ -190,7 +234,9 @@ const EditProfile = () => {
             />
           </View>
           <TouchableOpacity style={GlobalStyles.button} onPress={handleUpdate}>
-            <Text style={GlobalStyles.text}>Update</Text>
+            {loading ? <ActivityIndicator size="large" color='#FFF' /> :
+              <Text style={GlobalStyles.text}>Update</Text>
+            }
           </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
