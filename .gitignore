@@ -1,5 +1,5 @@
 node_modules
-PhotoChat/.expo/
+.expo/
 dist/
 npm-debug.*
 *.jks
@@ -9,7 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-PhotoChat/.env
+.env
 
 # macOS
 .DS_Store
