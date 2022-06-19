@@ -1,27 +1,67 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image, 
+  TextInput, 
+  TouchableOpacity, 
+  FlatList 
+} from 'react-native'
 import theme from '../core/theme'
 import React,{ useState, useEffect } from 'react'
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { useFonts } from 'expo-font';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { db } from '../core/firebase';
+import { ActionButtonItem } from 'react-native-action-button';
 
 const Comments = ({navigation, route}) => {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const fetchComments = async () => {
+  const fetchComments = () => {
+    const postId = route.params.postId;
+    const list = [];
     try{
-      await db.collection('posts')
-      .doc(route.params.postId)
-      .collection('comments')
+      db.collection('comments')
+      .where('postId', '==', postId)
       .get()
-      .then((QuerySnapshot) => {
-        console.log(QuerySnapshot.size);
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const {
+            userId,
+            postId,
+            text,
+          } = doc.data();
+          list.push({
+            id: doc.id,
+            userId: userId,
+            postId: postId,
+            text: text,
+          })
+          setComments(list);
+        })
       })
+      .catch(function(err) {
+        console.log('error: ', err);
+    });
+      // setComments(list);
     } catch(e){
       console.log(e);
     }
   }
+
+  const CommentsBox = ({ item }) => (
+    <View style={styles.comBubble}>
+        <Image style={styles.comImage} source={require('../assets/images/pp1.jpg')}/>
+        <Text style={styles.comText}>
+            <Text style={{color: theme.SECONDARY_COLOR, fontWeight: 'bold',}}>
+                John Doe 
+            </Text> 
+            {' '} {item.text} 
+        </Text>
+    </View>
+  );
 
   useEffect(() => {
     fetchComments();
@@ -29,24 +69,19 @@ const Comments = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.comBubble}>
-          <Image style={styles.comImage} source={require('../assets/images/pp1.jpg')}/>
-          <Text style={styles.comText}>
-              <Text style={{color: theme.SECONDARY_COLOR, fontWeight: 'bold',}}>
-                  John Doe 
-              </Text> 
-              {' '} Deeply in thought about all life. 
-          </Text>
-      </View>
-      <View style={styles.comBubble}>
-          <Image style={styles.comImage} source={require('../assets/images/pp1.jpg')}/>
-          <Text style={styles.comText}>
-              <Text style={{color: theme.SECONDARY_COLOR, fontWeight: 'bold',}}>
-                  John Doe 
-              </Text> 
-              {' '} Deeply in thought about all life. 
-          </Text>
-      </View>
+      <FlatList 
+          data={comments}
+          // onRefresh={onRefresh}
+          // refreshing={isFetching} 
+          renderItem = {({item}) => (
+              <CommentsBox item={item} />
+          )}
+          keyExtractor={(item) => item.id}
+          // ListHeaderComponent={ListHeader}
+          // ListFooterComponent={ListHeader}
+          showsVerticalScrollIndicator={false} 
+      />
+
       <View style={styles.commentWrap}>
         <TextInput
           style={styles.commentInput} 
@@ -99,7 +134,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
 }, 
 comText: {
-    fontFamily: 'Nunito_700Bold',
+    fontFamily: 'Nunito_400Regular',
     color: '#888888',
 },
 comImage: {

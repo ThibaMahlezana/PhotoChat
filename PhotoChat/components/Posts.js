@@ -48,6 +48,9 @@ export default function Posts({ navigation }){
                     });
                 });
             })
+            .catch(function(err) {
+                console.log('error: ', err);
+            });
             setPosts(list);
 
             if (loading) {

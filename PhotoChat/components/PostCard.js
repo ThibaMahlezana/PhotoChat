@@ -34,6 +34,9 @@ const PostCard = ({ item, navigation }) => {
                 setUserData(documentSnapshot.data());
             }
         })
+        .catch(function(err) {
+            console.log('error: ', err);
+        });
     }
 
     const PostHeader = () => {
@@ -92,10 +95,8 @@ const PostCard = ({ item, navigation }) => {
                 <View style={styles.comments}>
                     <TouchableOpacity 
                         onPress={() => {
-                            console.log(item.id);
                             navigation.navigate('Comments',
-                            {   screen: 'Comments',
-                                params: { postId: item.id },}
+                            { postId: item.id }
                             );
                         }}>
                         <Text style={styles.likesText}>{CommentIcon}</Text> 
