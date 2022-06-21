@@ -4,7 +4,8 @@ import {
   View, 
   Image, 
   TextInput, 
-  TouchableOpacity, 
+  TouchableOpacity,
+  ActivityIndicator,
   FlatList 
 } from 'react-native'
 import theme from '../core/theme'
@@ -20,6 +21,7 @@ const Comments = ({navigation, route}) => {
   const [loading, setLoading] = useState(false);
 
   const fetchComments = () => {
+    setLoading(true);
     const postId = route.params.postId;
     const list = [];
     try{
@@ -49,19 +51,23 @@ const Comments = ({navigation, route}) => {
     } catch(e){
       console.log(e);
     }
+    setLoading(false);
   }
 
-  const CommentsBox = ({ item }) => (
+  const CommentsBox = ({ item }) => {
+    
+    return(
     <View style={styles.comBubble}>
-        <Image style={styles.comImage} source={require('../assets/images/pp1.jpg')}/>
+        {/* <Image style={styles.comImage} source={{uri: avatar}}/> */}
         <Text style={styles.comText}>
             <Text style={{color: theme.SECONDARY_COLOR, fontWeight: 'bold',}}>
-                John Doe 
+                username
             </Text> 
             {' '} {item.text} 
         </Text>
     </View>
-  );
+    );
+  };
 
   useEffect(() => {
     fetchComments();
@@ -69,6 +75,7 @@ const Comments = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
+      {loading ? <ActivityIndicator size="large" color={theme.SECONDARY_COLOR} /> :
       <FlatList 
           data={comments}
           // onRefresh={onRefresh}
@@ -81,12 +88,12 @@ const Comments = ({navigation, route}) => {
           // ListFooterComponent={ListHeader}
           showsVerticalScrollIndicator={false} 
       />
+      }
 
       <View style={styles.commentWrap}>
         <TextInput
           style={styles.commentInput} 
           placeholder='Comment here '
-          autoFocus={true}
           autoCapitalize={false}
         />
         <TouchableOpacity>
@@ -127,8 +134,8 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingTop: 2,
     paddingBottom: 2,
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 3,
+    marginBottom: 3,
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden'

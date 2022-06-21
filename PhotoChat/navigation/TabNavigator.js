@@ -15,6 +15,7 @@ import ChatsList from '../screens/ChatsList'
 import Chats from '../screens/Chats'
 import CustomHeader from "../components/CustomHeader"
 import Comments from '../screens/Comments'
+import Status from '../screens/Status'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,11 @@ const HomeStack = () => {
             <Stack.Screen 
                 name='Comments'
                 component={Comments}
+            />
+            <Stack.Screen 
+                name='Status'
+                component={Status}
+                options={{headerShown: false}}
             />
         </Stack.Navigator>
     );

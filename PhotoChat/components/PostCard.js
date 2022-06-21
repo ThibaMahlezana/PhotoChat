@@ -96,7 +96,7 @@ const PostCard = ({ item, navigation }) => {
                     <TouchableOpacity 
                         onPress={() => {
                             navigation.navigate('Comments',
-                            { postId: item.id }
+                            { postId: item.id, userId: item.userId }
                             );
                         }}>
                         <Text style={styles.likesText}>{CommentIcon}</Text> 

@@ -7,8 +7,8 @@ import Posts from '../components/Posts';
 export default function Feeds({ navigation }){
     return(
         <View style={styles.container}>
-            <Stories/>
-            <Posts navigation={navigation}/>
+            <Stories navigation={navigation} />
+            <Posts navigation={navigation} />
         </View>
     );
 }
