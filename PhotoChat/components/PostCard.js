@@ -20,9 +20,25 @@ const CommentIcon = <Icon name="comment-o" size={25} color={theme.SECONDARY_COLO
 const PostCard = ({ item, navigation }) => {
     const [userData, setUserData] = useState(null);
     const [like, setLike] = useState(false);
+    const [commentCnt, setCommentsCnt] = useState(0);
 
     const handleLike = () => {
         like ? setLike(false) : setLike(true);
+    }
+
+    const getNumberOfComment = () => {
+        const postId = item.id;
+        try{
+            db.collection('comments')
+            .where('postId', '==', postId)
+            .get()
+            .then((querySnapshot) => {
+                setCommentsCnt(querySnapshot.size);
+            });
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 
     const getUser = async () => {
@@ -101,7 +117,7 @@ const PostCard = ({ item, navigation }) => {
                         }}>
                         <Text style={styles.likesText}>{CommentIcon}</Text> 
                     </TouchableOpacity>
-                    <Text style={styles.likesText}>50</Text>
+                    <Text style={styles.likesText}>{commentCnt}</Text>
                 </View> 
             </View>
         );
@@ -123,6 +139,7 @@ const PostCard = ({ item, navigation }) => {
 
     useEffect(() => {
         getUser();
+        getNumberOfComment();
     }, []);
 
   return (
@@ -135,12 +152,12 @@ const PostCard = ({ item, navigation }) => {
         <LikesArea/>
         {/* <Comments/>
         <Comments/> */}
-        <TouchableOpacity style={styles.btn}>
+        {/* <TouchableOpacity style={styles.btn}>
             <Text 
                 style={{fontSize: 14, fontFamily: 'Nunito_700Bold', color: theme.SECONDARY_COLOR}}>
                     view more
             </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
     </View>
   )
 }

@@ -96,7 +96,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
         screenOptions={{
-            headerShown: true,
+            headerShown: false,
             headerTitle: { headerTitle: (props) => <CustomHeader {...props} /> }
 ,           headerTintColor: '#fff',
             headerStyle: {backgroundColor: theme.PRIMARY_COLOR},

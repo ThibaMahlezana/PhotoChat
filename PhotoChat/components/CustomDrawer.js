@@ -11,9 +11,12 @@ import {
     DrawerItemList,
   } from '@react-navigation/drawer';
   import theme from '../core/theme';
-  import Ionicons from 'react-native-vector-icons/Ionicons';
   import { AuthContext } from '../navigation/AuthProvider';
   import { db } from '../core/firebase';
+  import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
+  import Icon from 'react-native-vector-icons/Ionicons';
+  import Ionicons from 'react-native-vector-icons/Ionicons';
+  import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CustomDrawer = props => {
     const { user, logout } = useContext(AuthContext);
@@ -47,8 +50,18 @@ const CustomDrawer = props => {
                 source={{uri: userData ? userData.userImg || 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg' : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg'}}
             />
             <Text style={styles.username}>{userData && userData.username}</Text>
-            <Text style={styles.bio}>{userData && userData.bio}</Text>
-            <Text style={styles.bio}>{userData && userData.location}</Text>
+            <Text style={styles.bio}>
+                <Icon name="ios-clipboard-outline" color={theme.SECONDARY_COLOR} size={20} /> 
+                {userData && userData.bio}
+            </Text>
+            <Text style={styles.bio}>
+                <MaterialCommunityIcons
+                    name="map-marker-outline"
+                    color={theme.SECONDARY_COLOR}
+                    size={25}
+                />
+                {userData && userData.location}
+            </Text>
         </View>
         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
             <DrawerItemList {...props} />
@@ -71,10 +84,12 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 18,
         color: theme.SECONDARY_COLOR,
+        fontFamily: 'Nunito_700Bold',
     },
     bio: {
-        color: '#FFF',
+        color: theme.SECONDARY_COLOR,
         fontSize: 14,
+        fontFamily: 'Nunito_400Regular',
     },
     image: {
         height: 100,
@@ -83,7 +98,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     button: {
-        backgroundColor: theme.PRIMARY_COLOR,
+        backgroundColor: theme.SECONDARY_COLOR,
         marginHorizontal: 20,
         padding: 10,
         marginBottom: 50,

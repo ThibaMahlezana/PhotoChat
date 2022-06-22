@@ -15,8 +15,9 @@ import theme from '../core/theme';
 import { AuthContext } from '../navigation/AuthProvider';
 import { store, db } from '../core/firebase';
 import firebase from 'firebase/compat';
+import Header from '../components/Header';
 
-export default function AddPost(){
+export default function AddPost({ route, navigation }){
     const {user, logout} = useContext(AuthContext);
     
     const [image, setImage] = useState(null);
@@ -106,7 +107,8 @@ export default function AddPost(){
     };
     
     return(
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <><Header route={route} navigation={navigation} />
+        <View style={styles.container}>
             {image ? <Image source={{ uri: image }} style={{ width: 350, height: 250 }} />
                     :<Icon name="md-images-outline" style={styles.placImg} />}
             {uploading}
@@ -140,12 +142,15 @@ export default function AddPost(){
                 </ActionButton.Item>
             </ActionButton>
         </View>
+        </>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center', 
+        justifyContent: 'center'
     },
     actionButtonIcon: {
         fontSize: 20,

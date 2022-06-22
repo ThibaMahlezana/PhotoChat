@@ -6,6 +6,7 @@ import { useFonts } from 'expo-font';
 import { db } from '../core/firebase';
 import { AuthContext } from '../navigation/AuthProvider';
 import moment from "moment";
+import Header from '../components/Header';
 
 
 const Messages = [
@@ -51,7 +52,7 @@ const Messages = [
   },
 ];
 
-const ChatsList = ({ navigation }) => {
+const ChatsList = ({ route, navigation }) => {
   const {user, logout} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -85,6 +86,7 @@ const ChatsList = ({ navigation }) => {
   }, [])
 
   return (
+    <><Header route={route} navigation={navigation} />
     <View style={styles.container}>
       <FlatList 
         data={messages}
@@ -111,6 +113,7 @@ const ChatsList = ({ navigation }) => {
           </TouchableOpacity>
         )} />
     </View>
+    </>
   )
 }
 

@@ -27,8 +27,9 @@ import {defaultProfilePic} from '../core/defaults';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import * as ImagePicker from 'expo-image-picker';
+import Header from '../components/Header';
 
-const EditProfile = () => {
+const EditProfile = ({ route, navigation }) => {
   const {user, logout} = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -130,11 +131,12 @@ const EditProfile = () => {
   }, []);
 
   return (
+    <>
+    <Header route={route} navigation={navigation} />
     <KeyboardAvoidingView
       //behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}>
         <ScrollView>
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -240,6 +242,7 @@ const EditProfile = () => {
           </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
+    </>
   )
 }
 

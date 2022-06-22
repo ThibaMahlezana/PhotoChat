@@ -15,6 +15,7 @@ import { useFonts } from 'expo-font';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { db } from '../core/firebase';
 import { ActionButtonItem } from 'react-native-action-button';
+import { defaultProfilePic } from '../core/defaults';
 
 const Comments = ({navigation, route}) => {
   const [comments, setComments] = useState([]);
@@ -34,12 +35,16 @@ const Comments = ({navigation, route}) => {
             userId,
             postId,
             text,
+            username,
+            userImg,
           } = doc.data();
           list.push({
             id: doc.id,
             userId: userId,
             postId: postId,
             text: text,
+            username: username,
+            userImg: userImg,
           })
           setComments(list);
         })
@@ -55,13 +60,16 @@ const Comments = ({navigation, route}) => {
   }
 
   const CommentsBox = ({ item }) => {
-    
+    const userId = item.userId;
     return(
     <View style={styles.comBubble}>
+        {item.userImg ? <Image style={styles.comImage} source={{uri: item.userImg}} /> : 
+          <Image style={styles.comImage} source={{uri: defaultProfilePic}} />
+        }
         {/* <Image style={styles.comImage} source={{uri: avatar}}/> */}
         <Text style={styles.comText}>
             <Text style={{color: theme.SECONDARY_COLOR, fontWeight: 'bold',}}>
-                username
+                {item.username}
             </Text> 
             {' '} {item.text} 
         </Text>

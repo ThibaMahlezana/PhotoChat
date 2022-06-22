@@ -6,13 +6,14 @@ import theme from '../core/theme';
 import BottomTab from '../components/BottomTab';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { db } from '../core/firebase';
+import Header from '../components/Header';
 // import { QuerySnapshot } from 'firebase/firestore';
 
 const SearchIcon = <Icon name="search" size={25} color={theme.SECONDARY_COLOR} />;
 const UserIcon = <IoniIcon name="user" size={25} color={theme.SECONDARY_COLOR} />;
 
 
-export default function Search({navigation}){
+export default function Search({ route, navigation }){
     const [users, setUsers] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -97,6 +98,7 @@ export default function Search({navigation}){
 
     return(
         <View style={styles.container}>
+             <Header route={route} navigation={navigation} />
             <View style={styles.search}>
                 {/* <Text style={styles.header}>Search</Text> */}
                 <View style={styles.searchArea}>

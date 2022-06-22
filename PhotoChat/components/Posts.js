@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 5,
         backgroundColor: '#DBDBD9',
-        height: '85%',
+        height: '78%',
     },
 });
