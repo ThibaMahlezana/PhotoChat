@@ -29,7 +29,7 @@ export default function Stories({ navigation }){
                     horizontal={true}>
                 <TouchableOpacity 
                     style={styles.status} 
-                    onPress={() => navigation.navigate('Status', {
+                    onPress={() => navigation.navigate('Add Status', {
                         name: 'Your Story',
                         // image: data.image,
                       })}>

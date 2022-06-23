@@ -104,7 +104,7 @@ export default function Register({ navigation }){
                         setLoading(true);
                         const avatar = await uploadImage();
                         register(avatar, values.username, values.email, values.password);
-                        console.log(values);
+                        //console.log(values);
                     }}>
                 {(props) => (
                     <View style={GlobalStyles.input_area}>

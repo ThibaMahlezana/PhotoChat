@@ -16,6 +16,7 @@ import Chats from '../screens/Chats'
 import CustomHeader from "../components/CustomHeader"
 import Comments from '../screens/Comments'
 import Status from '../screens/Status'
+import AddStatus from '../screens/AddStatus'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,11 @@ const HomeStack = () => {
             <Stack.Screen 
                 name='Status'
                 component={Status}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen 
+                name='Add Status'
+                component={AddStatus}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>
