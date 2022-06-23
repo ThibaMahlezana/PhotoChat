@@ -20,7 +20,7 @@ export default function StartScreen({ navigation }){
     }
     return(
         <View style={styles.background}>
-            <Text style={styles.header}>Moses Reeds</Text>
+            {/* <Text style={styles.header}>Moses Reeds</Text> */}
             <Text style={styles.subheader}>PhotoChat</Text>
             <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('Login')}>
                 <Text style={styles.text}>Sign in</Text>
