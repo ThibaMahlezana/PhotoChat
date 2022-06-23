@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     subheader: {
-        marginBottom: 10,
+        marginBottom: 40,
         color: '#FFF',
         fontSize: 45,
         fontFamily: 'Nunito_700Bold',

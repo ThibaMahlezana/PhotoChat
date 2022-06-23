@@ -70,12 +70,15 @@ export default function Posts({ navigation }){
     };
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-          console.log('Refreshed!');
-          fetchPosts();
-        });
-        return unsubscribe;
-    }, [navigation]);
+        fetchPosts();
+    },[])
+
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //       fetchPosts();
+    //     });
+    //     return unsubscribe;
+    // }, [navigation]);
 
     const ListHeader = () => {
         return null;

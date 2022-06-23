@@ -16,6 +16,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import { db } from '../core/firebase';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { useFonts } from 'expo-font';
+import Header from '../components/Header';
 
 import ImagesList from '../components/ImagesList';
 import VideosList from '../components/VideosList';
@@ -89,6 +90,8 @@ export default function Profile({ route, navigation }){
     }, [navigation, loading]);
 
     return(
+        <>
+        <Header route={route} navigation={navigation} />
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image 
@@ -150,6 +153,7 @@ export default function Profile({ route, navigation }){
                 renderTabBar={renderTabBar}
                 />
         </View>
+        </>
     );
 }
 

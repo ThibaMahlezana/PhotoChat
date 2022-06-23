@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, StatusBar, View, TouchableOpacity } from 'react-native'
 import theme from '../core/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -6,23 +6,51 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 
 export default function Header({route, navigation}) {
-  let routeName = '';
+  let routeName = route.name;
+  let iconName = 'chevron-back';
+  
+  if(route.name == 'Home') {
+    routeName = 'Feeds';
+    iconName = 'menu-outline';
+  }
+  if(route.name == 'Search') {
+    iconName = 'menu-outline';
+  }
+  if(route.name == 'Add Post') {
+    iconName = 'menu-outline';
+  }
+  if(route.name == 'Profile') {
+    iconName = 'menu-outline';
+  }
   if(route.name == 'ChatsList'){
     routeName = 'Chats';
+    iconName = 'menu-outline';
   }
-  else if(route.name == 'EditProfile'){
-    routeName = 'Edit Profile';
+  if(route.name == 'EditProfile'){
+    routeName ='Edit Profile';
   }
-  else {
-    routeName = route.name;
+
+  const LeftIcon = () => {
+    return(
+      <TouchableOpacity 
+          onPress={
+            () => route.name == 'Home' || 
+            route.name == 'Search' || 
+            route.name == 'Add Post' ||
+            route.name == 'Profile' ||
+            route.name == 'ChatsList' ? 
+              navigation.toggleDrawer() : navigation.goBack()
+          }
+        >
+        <Ionicons name={iconName} size={30} color={'white'}/>
+      </TouchableOpacity>
+    )
   }
 
   return (
     <View style={styles.header}>
       <StatusBar backgroundColor={theme.PRIMARY_COLOR}/>
-      <TouchableOpacity>
-        <Ionicons name="chevron-back" size={30} color={'white'}/>
-      </TouchableOpacity>
+      <LeftIcon iconName={iconName} />
       <Text style={styles.title}> { routeName } </Text>
       <TouchableOpacity>
         <FontAwesome name='camera' size={22} color={'white'} />
@@ -39,6 +67,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: theme.PRIMARY_COLOR,
     paddingEnd: 18,
+    paddingStart: 18,
   },
   title: {
     fontSize: 22,

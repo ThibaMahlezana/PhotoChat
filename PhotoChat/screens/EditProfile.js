@@ -179,10 +179,10 @@ const EditProfile = ({ route, navigation }) => {
             onPress={() => setModalVisible(true)}
             >
               {image ? <Image source={{ uri: image }} style={styles.image} /> : 
-                      <Image 
-                        style={styles.image} 
-                        source={{uri: userData==null ? userData && userData.userImg : defaultProfilePic}}
-                      />
+                  <Image 
+                    style={styles.image} 
+                    source={{uri: userData ? userData && userData.userImg : defaultProfilePic}}
+                  />
               }
           </TouchableOpacity>
           <View style={styles.action}>
@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginVertical: 10,
+    position: 'relative',
   },
   image: {
     width: 150,

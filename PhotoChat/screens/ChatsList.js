@@ -7,7 +7,7 @@ import { db } from '../core/firebase';
 import { AuthContext } from '../navigation/AuthProvider';
 import moment from "moment";
 import Header from '../components/Header';
-
+import ChatMessageCard from '../components/ChatMessageCard';
 
 const Messages = [
   {
@@ -64,7 +64,7 @@ const ChatsList = ({ route, navigation }) => {
       .where('clientId', '==', user.uid)
       .get()
       .then((querySnapshot) => {
-        console.log('num messages ',querySnapshot.size);
+        // console.log('num messages ',querySnapshot.size);
         querySnapshot.forEach((doc) => {
           const { text, time, userId } = doc.data();
           list.push({
@@ -92,25 +92,7 @@ const ChatsList = ({ route, navigation }) => {
         data={messages}
         keyExtractor={item=>item.id}
         renderItem={({item}) => (
-          <TouchableOpacity 
-              style={styles.card}
-              onPress={() => navigation.navigate('ChatsDetails', 
-                        { username: userData.username })}>
-            <View style={styles.userInfo}>
-              <View style={styles.userImgWrapper}>
-                <Image style={styles.userImg} source={require('../assets/images/500.jpg')}/>
-              </View>
-              <View style={styles.textSection}>
-                <View style={styles.userInfoText}>
-                  <Text style={styles.userName}>
-                    username
-                  </Text>
-                  <Text style={styles.postTime}>Time</Text>
-                </View>
-                <Text style={styles.messageText}>Text</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+          <ChatMessageCard item={item} />
         )} />
     </View>
     </>
@@ -127,50 +109,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
   },
-  card: {
-    width: '100%',
-  },
-  userInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  userImgWrapper: {
-    paddingTop: 15,
-    paddingBottom: 15,
-  },
-  userImg: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-  },
-  textSection: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 15,
-    paddingLeft: 0,
-    marginLeft: 10,
-    width: 300,
-    borderBottomWidth: 1,
-    borderColor: '#cccccc',
-  },
-  userInfoText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  userName: {
-    fontFamily: 'Nunito_700Bold',
-    fontSize: 14,
-    color: theme.SECONDARY_COLOR,
-  },
-  postTime: {
-    fontFamily: 'Nunito_400Regular',
-    fontSize: 12,
-    color: '#666',
-  },
-  messageText: {
-    fontFamily: 'Nunito_400Regular',
-    fontSize: 14,
-    color: '#808080',
-  }
 })
