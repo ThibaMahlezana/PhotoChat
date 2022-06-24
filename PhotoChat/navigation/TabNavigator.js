@@ -1,10 +1,12 @@
-import { View, Text } from 'react-native'
+import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import theme from '../core/theme'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
+import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
+import ChatsHeader from '../components/ChatsHeader'
 
 import Feeds from '../screens/Feeds'
 import Search from '../screens/Search'
@@ -17,6 +19,8 @@ import CustomHeader from "../components/CustomHeader"
 import Comments from '../screens/Comments'
 import Status from '../screens/Status'
 import AddStatus from '../screens/AddStatus'
+import VoiceCall from '../screens/VoiceCall'
+import VideoCall from '../screens/VideoCall'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -60,11 +64,28 @@ const ChatsStack = ({navigation}) => {
             <ChatStack.Screen 
                 name="ChatsDetails"
                 component={Chats}
-                options={({route}) => ({
-                    title: route.params.username,
+                options={({route, navigation}) => ({
+                    headerTitle: () => <ChatsHeader route={route} navigation={navigation} />,
+                    //title: route.params.username,
+                    headerBackVisible: false,
                     headerBackTitleVisible: false,
+                    headerStyle: {
+                        backgroundColor: theme.PRIMARY_COLOR,
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontFamily: 'Nunito_700Bold',
+                    },
                   })}
-                />
+            />
+            <ChatStack.Screen 
+                name="Video Call" 
+                component={VideoCall}
+            />
+            <ChatStack.Screen 
+                name="Voice Call" 
+                component={VoiceCall}
+            />
         </ChatStack.Navigator>
     );
 }
@@ -87,18 +108,6 @@ const ProfilesStack = () => {
 }
 
 const TabNavigator = () => {
-    const getTabBarVisible = (route) => {
-        const routeName = route.state
-        ?  route.state.routes[route.state.index].name
-        : route.params?.screen || 'Chats';
-
-        if (routeName === 'Chats') {
-            return false;
-        }
-        console.log(routeName);
-        return true;
-    };
-
   return (
     <Tab.Navigator
         screenOptions={{
@@ -109,6 +118,14 @@ const TabNavigator = () => {
             tabBarStyle: {backgroundColor: theme.PRIMARY_COLOR},
             tabBarInactiveTintColor: '#fff',
             tabBarActiveTintColor: theme.SECONDARY_COLOR,
+            tabBarActiveBackgroundColor: '#fff',
+            tabBarItemStyle: {
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                borderBottomEndRadius: 30,
+                borderBottomStartRadius: 30,
+            }
+            
         }}>
         <Tab.Screen 
             name='Feeds' 

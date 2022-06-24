@@ -3,6 +3,7 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import theme from '../core/theme';
 
 const Chats = () => {
   const [messages, setMessages] = useState([]);
@@ -46,7 +47,7 @@ const Chats = () => {
             name="send-circle"
             style={{marginBottom: 5, marginRight: 5}}
             size={32}
-            color="#2e64e5"
+            color={theme.SECONDARY_COLOR}
           />
         </View>
       </Send>
@@ -59,7 +60,7 @@ const Chats = () => {
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: '#2e64e5',
+            backgroundColor: theme.SECONDARY_COLOR,
           },
         }}
         textStyle={{

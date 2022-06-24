@@ -1,26 +1,31 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Image,  ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import theme from '../core/theme'
 import moment from 'moment'
 import { db } from '../core/firebase'
 
-const ChatMessageCard = ({ item }) => {
+const ChatMessageCard = ({ item, navigation }) => {
     const [userData, setUserData] = useState([]);
 
     const getUserInfo = async () => {
-        const list = [];
-        const userId = item.userId;
-        await db.collection('users')
-        .doc(userId)
-        .get()
-        .then((querySnapshot) => {
-            const { username, userImg } = querySnapshot.data();
-            list.push({
-                username: username,
-                userImg: userImg,
-            });
-            setUserData(list);
-        })
+        try{
+            const list = [];
+            const userId = item.userId;
+            await db.collection('users')
+            .doc(userId)
+            .get()
+            .then((querySnapshot) => {
+                const { username, userImg } = querySnapshot.data();
+                list.push({
+                    username: username,
+                    userImg: userImg,
+                });
+                setUserData(list);
+            })
+        }
+        catch(e){
+            console.log(e);
+        }
     }
     
     useEffect(() => {
@@ -29,30 +34,32 @@ const ChatMessageCard = ({ item }) => {
     
     return (
     <View>
-    <TouchableOpacity 
-            style={styles.card}
-            // onPress={() => navigation.navigate('ChatsDetails', 
-            //         { username: userData.username })}
-        >
-        <View style={styles.userInfo}>
-            <View style={styles.userImgWrapper}>
-                <Image 
-                    style={styles.userImg} 
-                    source={{ uri: userData[0].userImg }}/>
-            </View>
-            <View style={styles.textSection}>
-                <View style={styles.userInfoText}>
-                    <Text style={styles.userName}>
-                        { userData[0].username }
-                    </Text>
-                    <Text style={styles.postTime}>
-                        { moment(item.time.toDate()).fromNow() }
-                    </Text>
+        <TouchableOpacity 
+                style={styles.card}
+                onPress={
+                    () => navigation.navigate('ChatsDetails', 
+                        { username: userData[0].username, userImg: userData[0].userImg })
+                }
+            >
+            <View style={styles.userInfo}>
+                <View style={styles.userImgWrapper}>
+                    <Image 
+                        style={styles.userImg} 
+                        source={{ uri: userData[0] && userData[0].userImg }}/>
                 </View>
-                <Text style={styles.messageText}>{item.text}</Text>
+                <View style={styles.textSection}>
+                    <View style={styles.userInfoText}>
+                        <Text style={styles.userName}>
+                            { userData[0] && userData[0].username }
+                        </Text>
+                        <Text style={styles.postTime}>
+                            { moment(item.time.toDate()).fromNow() }
+                        </Text>
+                    </View>
+                    <Text style={styles.messageText}>{item.text}</Text>
+                </View>
             </View>
-        </View>
-    </TouchableOpacity>
+        </TouchableOpacity>
     </View>
   )
 }

@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity} from 'react-native'
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  FlatList,
+  TextInput, 
+  ActivityIndicator
+} from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import theme from '../core/theme'
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
@@ -8,6 +15,8 @@ import { AuthContext } from '../navigation/AuthProvider';
 import moment from "moment";
 import Header from '../components/Header';
 import ChatMessageCard from '../components/ChatMessageCard';
+import OnlineUsers from '../components/OnlineUsers';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Messages = [
   {
@@ -56,6 +65,7 @@ const ChatsList = ({ route, navigation }) => {
   const {user, logout} = useContext(AuthContext);
   const [messages, setMessages] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchChatList = async () => {
     const list = [];
@@ -64,7 +74,6 @@ const ChatsList = ({ route, navigation }) => {
       .where('clientId', '==', user.uid)
       .get()
       .then((querySnapshot) => {
-        // console.log('num messages ',querySnapshot.size);
         querySnapshot.forEach((doc) => {
           const { text, time, userId } = doc.data();
           list.push({
@@ -84,17 +93,24 @@ const ChatsList = ({ route, navigation }) => {
   useEffect(() => {
     fetchChatList();
   }, [])
-
+  
   return (
     <><Header route={route} navigation={navigation} />
-    <View style={styles.container}>
-      <FlatList 
-        data={messages}
-        keyExtractor={item=>item.id}
-        renderItem={({item}) => (
-          <ChatMessageCard item={item} />
-        )} />
-    </View>
+    {loading ? <ActivityIndicator size="large" color={theme.SECONDARY_COLOR} /> : 
+      <View style={styles.container}>
+        <View style={styles.textInputWrap}>
+          <FontAwesome name='search' size={25} color={theme.SECONDARY_COLOR} />
+          <TextInput style={styles.searchText} placeholder='Search...' />
+        </View>
+        <OnlineUsers />
+        <FlatList 
+          data={messages}
+          keyExtractor={item=>item.id}
+          renderItem={({item}) => (
+            <ChatMessageCard item={item} navigation={navigation} />
+          )} />
+      </View>
+      }
     </>
   )
 }
@@ -104,9 +120,22 @@ export default ChatsList
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    alignItems: 'center',
+    paddingLeft: 8,
+    paddingRight: 8,
     backgroundColor: '#ffffff',
   },
+  textInputWrap: {
+    flexDirection: 'row',
+    backgroundColor: '#ededed',
+    marginVertical: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+  },
+  searchText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: theme.SECONDARY_COLOR,
+    fontFamily: 'Nunito_400Regular',
+  }
 })

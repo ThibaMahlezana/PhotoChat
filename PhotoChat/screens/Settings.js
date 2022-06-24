@@ -4,7 +4,10 @@ import React from 'react'
 const Settings = () => {
   return (
     <View>
-      <Text>Settings</Text>
+      <Text>Change Theme</Text>
+      <Text>Change Password</Text>
+      <Text>Verify Account</Text>
+      <Text>Delete Account</Text>
     </View>
   )
 }

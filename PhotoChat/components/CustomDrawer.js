@@ -51,13 +51,13 @@ const CustomDrawer = props => {
             />
             <Text style={styles.username}>{userData && userData.username}</Text>
             <Text style={styles.bio}>
-                <Icon name="ios-clipboard-outline" color={theme.SECONDARY_COLOR} size={20} /> 
+                <Icon name="ios-clipboard-outline" color='white' size={20} /> 
                 {userData && userData.bio}
             </Text>
             <Text style={styles.bio}>
                 <MaterialCommunityIcons
                     name="map-marker-outline"
-                    color={theme.SECONDARY_COLOR}
+                    color='white'
                     size={25}
                 />
                 {userData && userData.location}
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
     },
     username: {
         fontSize: 18,
-        color: theme.SECONDARY_COLOR,
+        color: 'white',
         fontFamily: 'Nunito_700Bold',
     },
     bio: {
-        color: theme.SECONDARY_COLOR,
+        color: 'white',
         fontSize: 14,
         fontFamily: 'Nunito_400Regular',
     },
