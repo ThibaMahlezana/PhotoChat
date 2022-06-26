@@ -81,10 +81,12 @@ const ChatsStack = ({navigation}) => {
             <ChatStack.Screen 
                 name="Video Call" 
                 component={VideoCall}
+                options={{headerShown: false}}
             />
             <ChatStack.Screen 
                 name="Voice Call" 
                 component={VoiceCall}
+                options={{headerShown: false}}
             />
         </ChatStack.Navigator>
     );

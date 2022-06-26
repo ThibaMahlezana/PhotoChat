@@ -105,7 +105,7 @@ const ChatsList = ({ route, navigation }) => {
         <OnlineUsers />
         <FlatList 
           data={messages}
-          keyExtractor={item=>item.id}
+          keyExtractor={(item) => {return item.id}}
           renderItem={({item}) => (
             <ChatMessageCard item={item} navigation={navigation} />
           )} />

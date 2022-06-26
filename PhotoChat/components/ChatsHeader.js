@@ -21,7 +21,15 @@ const ChatsHeader = ({ route, navigation }) => {
             </Text>
         </View>
         <View style={styles.tools}>
-            <TouchableOpacity onPress={()=> navigation.navigate('Voice Call')}>
+            <TouchableOpacity 
+                // onPress={()=> navigation.navigate('Voice Call')}
+                onPress={
+                    () => navigation.navigate('Voice Call', 
+                        { username: route.params && route.params.username, 
+                          userImg: route.params && route.params.userImg 
+                    })
+                }
+            >
                 <FontAwesome 
                     name="phone" 
                     size={25} 
@@ -29,7 +37,15 @@ const ChatsHeader = ({ route, navigation }) => {
                     color={'white'} 
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> navigation.navigate('Video Call')}>
+            <TouchableOpacity 
+                // onPress={()=> navigation.navigate('Video Call')}
+                onPress={
+                    () => navigation.navigate('Video Call', 
+                        { username: route.params && route.params.username, 
+                          userImg: route.params && route.params.userImg 
+                    })
+                }
+            >
                 <Icon 
                     name="videocam" 
                     size={25} 
