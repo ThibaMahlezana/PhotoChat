@@ -52,7 +52,7 @@ export default function Header({route, navigation}) {
       <StatusBar backgroundColor={theme.PRIMARY_COLOR}/>
       <LeftIcon iconName={iconName} />
       <Text style={styles.title}> { routeName } </Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
         <FontAwesome name='camera' size={22} color={'white'} />
       </TouchableOpacity>
     </View>

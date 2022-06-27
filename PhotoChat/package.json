@@ -40,7 +40,10 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "0.17.7",
     "webpack-dev-server": "~3.11.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "expo-av": "~11.2.3",
+    "expo-media-library": "~14.1.0",
+    "expo-video-thumbnails": "~6.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

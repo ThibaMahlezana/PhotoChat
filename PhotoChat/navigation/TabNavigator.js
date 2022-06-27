@@ -21,6 +21,8 @@ import Status from '../screens/Status'
 import AddStatus from '../screens/AddStatus'
 import VoiceCall from '../screens/VoiceCall'
 import VideoCall from '../screens/VideoCall'
+import Camera from '../screens/Camera'
+import Save from '../screens/Save'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -47,6 +49,16 @@ const HomeStack = () => {
             <Stack.Screen 
                 name='Add Status'
                 component={AddStatus}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen 
+                name='Camera'
+                component={Camera}
+                options={{headerShown: false}}
+            />
+            <Stack.Screen 
+                name='Save'
+                component={Save}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>
