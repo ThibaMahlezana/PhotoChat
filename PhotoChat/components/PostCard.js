@@ -15,7 +15,11 @@ import moment from 'moment';
 const likeIcon = <Icon name="heart" size={25} color={theme.SECONDARY_COLOR} />
 const disLikedIcon = <Icon name="heart-o" size={25} color={theme.SECONDARY_COLOR} />
 
+// const likeIcon = <Icon name="star" size={25} color={theme.SECONDARY_COLOR} />
+// const disLikedIcon = <Icon name="star-o" size={25} color={theme.SECONDARY_COLOR} />
+
 const CommentIcon = <Icon name="comment-o" size={25} color={theme.SECONDARY_COLOR} />
+// const CommentIcon = <Icon name="pencil" size={25} color={theme.SECONDARY_COLOR} />
 
 const PostCard = ({ item, navigation }) => {
     const [userData, setUserData] = useState(null);
@@ -106,7 +110,7 @@ const PostCard = ({ item, navigation }) => {
                             { like ? likeIcon : disLikedIcon }
                         </Text>
                     </TouchableOpacity>
-                    <Text style={styles.likesText}>20</Text>
+                    <Text style={styles.likesText}>0</Text>
                 </View>
                 <View style={styles.comments}>
                     <TouchableOpacity 
@@ -175,6 +179,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 10,
         backgroundColor: '#FFF',
+        // backgroundColor: 'purple',
     },
     postHeader: {
         flexDirection: 'row',
