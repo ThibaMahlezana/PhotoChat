@@ -2,11 +2,16 @@ import { View,
     Text, 
     StyleSheet, 
     Image, 
+    Modal,
+    Pressable,
     TouchableOpacity,
 } from 'react-native';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../navigation/AuthProvider';
 import theme from '../core/theme';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { db } from '../core/firebase';
 import { GlobalStyles, Nunito_400Regular, Nunito_700Bold } from "../styles/GlobalStyles";
 import { useFonts } from 'expo-font';
@@ -14,6 +19,7 @@ import moment from 'moment';
 
 const likeIcon = <Icon name="heart" size={25} color={theme.SECONDARY_COLOR} />
 const disLikedIcon = <Icon name="heart-o" size={25} color={theme.SECONDARY_COLOR} />
+const deIlcon = <EvilIcons name="close" size={25} color={theme.SECONDARY_COLOR} />
 
 // const likeIcon = <Icon name="star" size={25} color={theme.SECONDARY_COLOR} />
 // const disLikedIcon = <Icon name="star-o" size={25} color={theme.SECONDARY_COLOR} />
@@ -22,9 +28,11 @@ const CommentIcon = <Icon name="comment-o" size={25} color={theme.SECONDARY_COLO
 // const CommentIcon = <Icon name="pencil" size={25} color={theme.SECONDARY_COLOR} />
 
 const PostCard = ({ item, navigation }) => {
+    const { user } = useContext(AuthContext);
     const [userData, setUserData] = useState(null);
     const [like, setLike] = useState(false);
     const [commentCnt, setCommentsCnt] = useState(0);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleLike = () => {
         like ? setLike(false) : setLike(true);
@@ -59,6 +67,46 @@ const PostCard = ({ item, navigation }) => {
         });
     }
 
+    const renderModal = () => {
+        return(
+          <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>Are you sure you want to delete this post?</Text>
+                    <Pressable
+                      style={styles.button}
+                      onPress={(item) => {
+                        deletePost(item);
+                      }}
+                    >
+                      <Ionicons name="checkmark" style={styles.Icon} size={20} />
+                      <Text style={styles.textStyle}>Yes</Text>
+                    </Pressable>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => setModalVisible(!modalVisible)}
+                    >
+                      <EvilIcons name="close" style={styles.Icon} size={20} />
+                      <Text style={styles.textStyle}>No</Text>
+                    </Pressable>
+                  </View>
+                </View>
+          </Modal>
+        );
+    }
+
+    const deletePost = () => {
+        console.log(item.id);
+        setModalVisible(false);
+    }
+
     const PostHeader = () => {
         return(
             <View style={styles.postHeader}>
@@ -81,6 +129,15 @@ const PostCard = ({ item, navigation }) => {
                         { moment(item.postTime.toDate()).fromNow() }
                     </Text>
                 </View>
+                
+                <View style={styles.deIlcon}>
+                    { (item.userId == user.uid) ?
+                    <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        <EvilIcons name='close' size={20}  color={theme.SECONDARY_COLOR} />
+                    </TouchableOpacity> : null
+                    }
+                </View>
+                {renderModal()}
             </View>
         );
     };
@@ -185,7 +242,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 8,
     },
-
+    deIlcon: {
+        position: 'absolute',
+        left: 310,
+    },
     userPic: {
         width: 40,
         height: 40,
@@ -274,5 +334,55 @@ const styles = StyleSheet.create({
         width: '92%',
         alignSelf: 'center',
         marginTop: 15,
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+      },
+      modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+      },
+      button: {
+        borderRadius: 10,
+        padding: 10,
+        elevation: 2,
+        marginBottom: 5,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.SECONDARY_COLOR,
+      },
+      Icon: {
+        marginRight: 10,
+        color: '#FFF',
+      },
+      buttonClose: {
+        backgroundColor: 'red',
+      },
+      textStyle: {
+        color: "white",
+        textAlign: "center",
+        fontFamily: 'Nunito_400Regular',
+      },
+      modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontFamily: 'Nunito_700Bold',
+        fontSize: 18,
+        color: theme.SECONDARY_COLOR,
+      }
 });

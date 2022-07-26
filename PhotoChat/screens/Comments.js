@@ -81,7 +81,43 @@ const Comments = ({navigation, route}) => {
     .catch(function(err) {
         console.log('error: ', err);
     });
-}
+  }
+
+  const renderModal = () => {
+    return(
+      <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Are you sure you want to delete this comment ?</Text>
+                <Pressable
+                  style={styles.button}
+                  onPress={(item) => {
+                    deleteComment(item);
+                  }}
+                >
+                  <Icon name="checkmark" style={styles.Icon} size={20} />
+                  <Text style={styles.textStyle}>Yes</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Icon name="md-close" style={styles.Icon} size={20} />
+                  <Text style={styles.textStyle}>No</Text>
+                </Pressable>
+              </View>
+            </View>
+      </Modal>
+    );
+  }
 
   const CommentsBox = ({ item }) => {
     const userId = item.userId;
@@ -143,37 +179,7 @@ const Comments = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Are you sure you want to delete this comment ?</Text>
-                <Pressable
-                  style={styles.button}
-                  onPress={(item) => {
-                    deleteComment(item);
-                  }}
-                >
-                  <Icon name="checkmark" style={styles.Icon} size={20} />
-                  <Text style={styles.textStyle}>Yes</Text>
-                </Pressable>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <Icon name="md-close" style={styles.Icon} size={20} />
-                  <Text style={styles.textStyle}>No</Text>
-                </Pressable>
-              </View>
-            </View>
-      </Modal>
+      {renderModal()}
       {loading ? <ActivityIndicator size="large" color={theme.SECONDARY_COLOR} /> :
       <FlatList 
           data={comments}
