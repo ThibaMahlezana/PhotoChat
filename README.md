@@ -5,7 +5,7 @@
 This is a photo sharing chat app more like instagram with extra chat features.
 
 ## 📷 Screenshots
-<img src="https://github.com/ThibaMahlezana/PhotoChat/blob/main/Screenshots/Screenshot_20220624-152445.png" width="600">
+<img src="https://github.com/ThibaMahlezana/PhotoChat/blob/main/Screenshots/Screenshot_20220624-152445.png" width="300">
 
 ![](https://github.com/ThibaMahlezana/PhotoChat/blob/main/Screenshots/Screenshot_20220624-152445.png)
 ![](https://github.com/ThibaMahlezana/PhotoChat/blob/main/Screenshots/Screenshot_20220624-152501.png)
